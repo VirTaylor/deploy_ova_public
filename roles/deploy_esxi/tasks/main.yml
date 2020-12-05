@@ -1,0 +1,38 @@
+---
+  - name: Deploy VMWare ESXI
+    community.vmware.vmware_deploy_ovf:
+      hostname: "{{ vcenter }}"
+      username: "{{ vc_user }}"
+      password: "{{ vc_pass }}"
+      datacenter: "{{ vc_dc }}"
+      cluster: "{{ vc_cluster }}"
+      datastore: "{{ datastore }}"
+      folder: "{{ esxi_folder }}"
+      disk_provisioning: "thick"
+      name: "{{ esxi_hostname }}"
+      validate_certs: no
+      networks:
+          "VM Network": "{{ esxi_int }}"
+      power_on: no
+      ovf: "{{ esxi_abs_ova_path }}"
+      properties:
+            guestinfo.hostname: "{{ esxi_hostname }}"
+            guestinfo.password: "{{ esxi_root_password }}"
+            guestinfo.domain: "{{ esxi_domain_name }}"
+            guestinfo.dns: "{{ esxi_dns_servers }}"
+            guestinfo.gateway: "{{ esxi_mgmt_gateway }}"
+            guestinfo.ipaddress: "{{ esxi_mgmt_address }}"   
+            guestinfo.netmask: "{{ esxi_mgmt_mask }}" 
+            guestinfo.vlan: "{{ esxi_mgmt_vlan }}"  
+  
+  - name: Power On Virtual Machine
+    community.vmware.vmware_guest_powerstate:
+      hostname: "{{ vcenter }}"
+      username: "{{ vc_user }}"
+      password: "{{ vc_pass }}"
+      validate_certs: no
+      folder: "{{ esxi_folder }}"
+      name: "{{ esxi_hostname }}"
+      state: powered-on
+    delegate_to: localhost
+    register: deploy

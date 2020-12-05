@@ -1,0 +1,6 @@
+[CSR]
+#CSR01 csr_hostname="CSR01" csr_mgmt_address="10.10.10.10"
+
+[ESXI]
+#ESXI01 esxi_hostname="ESXI01" esxi_mgmt_address="10.10.10.11"
+

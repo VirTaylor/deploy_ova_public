@@ -1,0 +1,32 @@
+# Infrastructure
+vcenter: "enter-fqdn-or-ip-of-vcenter" # vcsa.lab.local
+vc_user: "enter-username-of-ansible-account-to-deploy-ova" # administrator@vsphere.local
+vc_pass: "enter-password-of-ansible-account-to-deploy-ova" # Password123
+vc_dc: "enter-name-of-destination-dataceter" # Lab Datacenter
+vc_cluster: "enter-name-of-destination-cluster" # Lab Cluster
+datastore: "enter-name-destination-datastore" # datastore1
+
+# CSR Deployment Options
+csr_abs_ova_path: "enter-absolute-path-of-ova" # /mnt/s/Cisco/csr1000v-universalk9.17.02.02.ova
+csr_folder: "enter-vsphere-folder-path-for-organizartion" # Datacenter/vm/CSR
+csr_gig1: "enter-port-group-for-interface3" # VM Network
+csr_gig2: "enter-port-group-for-interface1" # VM Network
+csr_gig3: "enter-port-group-for-interface3" # VM Network
+csr_admin_username: "enter-default-admin-username" # admin
+csr_admin_password: "enter-default-admin-password" # Password123
+csr_domain_name: "enter-domain-name" # lab.local
+csr_mgmt_mask: "enter-mgmt-subnet-mask" # 255.255.255.0
+csr_enable_password: "enter-enable-password" # Enable123
+csr_license_level: "ax" # ax
+csr_mgmt_gateway: "enter-mgmt-gateway" # 10.10.10.1
+
+# ESXI Deployment Options
+esxi_abs_ova_path: "enter-absolute-path-of-ova" # /mnt/s/ESXI/Nested_ESXi7.0u1_Appliance_Template_v1.ova
+esxi_folder: "enter-vsphere-folder-path-for-organizartion" # Datacenter/vm/ESXI
+esxi_int: "enter-port-group-for-interface" # VM Network
+esxi_root_password: "enter-nexted-esxi-root-password" # Password123
+esxi_domain_name: "enter-domain-name" # lab.local
+esxi_mgmt_mask: enter-mgmt-subnet-mask" # 255.255.255.0
+esxi_mgmt_gateway: "enter-mgmt-gateway" # 10.10.10.1
+esxi_mgmt_vlan: "enter-mgmt-vlan-id" # 1
+esxi_dns_servers: "enter-dns-servers-comma-seperated" # 10.10.10.1, 10.10.10.2

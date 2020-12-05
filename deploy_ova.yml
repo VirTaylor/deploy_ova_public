@@ -1,0 +1,16 @@
+---
+- hosts: [CSR]
+  connection: local
+  gather_facts: false
+  vars_files:
+    - answerfile.yml
+  roles:
+     - deploy_csr
+
+- hosts: [ESXI]
+  connection: local
+  gather_facts: false
+  vars_files:
+    - answerfile.yml
+  roles:
+     - deploy_esxi  

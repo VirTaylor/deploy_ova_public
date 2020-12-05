@@ -1,0 +1,70 @@
+---
+  - name: Deploy Cisco CSR
+    community.vmware.vmware_deploy_ovf:
+      hostname: "{{ vcenter }}"
+      username: "{{ vc_user }}"
+      password: "{{ vc_pass }}"
+      datacenter: "{{ vc_dc }}"
+      cluster: "{{ vc_cluster }}"
+      datastore: "{{ datastore}}"
+      folder: "{{ csr_folder }}"
+      disk_provisioning: "thin"
+      name: "{{ csr_hostname }}"
+      validate_certs: no
+      networks:
+          "GigabitEthernet1": "{{ csr_gig1 }}"
+          "GigabitEthernet2": "{{ csr_gig2 }}"
+          "GigabitEthernet3": "{{ csr_gig3 }}"
+      power_on: no
+      ovf: "{{ csr_abs_ova_path }}"
+      properties:
+            com.cisco.csr1000v.hostname.1: "{{ csr_hostname }}"
+            com.cisco.csr1000v.login-username.1: "{{ csr_admin_username }}"
+            com.cisco.csr1000v.login-password.1: "{{ csr_admin_password }}"
+            com.cisco.csr1000v.domain-name.1: "{{ csr_domain_name }}"
+            com.cisco.csr1000v.enable-ssh-server.1: "True"
+            com.cisco.csr1000v.privilege-password.1: "{{ csr_enable_password }}"
+            com.cisco.csr1000v.license.1: "{{ csr_license_level }}"      
+
+  - name: Update vApp Properties for OOB Management
+    vmware_guest:
+      hostname: '{{ vcenter }}'
+      username: '{{ vc_user }}'
+      password: '{{ vc_pass }}'
+      name: '{{ csr_hostname }}'
+      state: present
+      validate_certs: false
+      vapp_properties:
+        - id: com.cisco.csr1000v.ios-config-0001.1
+          type: string
+          value: vrf definition Mgmt-intf
+        - id: com.cisco.csr1000v.ios-config-0002.1
+          type: string
+          value: address-family ipv4
+        - id: com.cisco.csr1000v.ios-config-0003.1
+          type: string
+          value: interface GigabitEthernet3
+        - id: com.cisco.csr1000v.ios-config-0004.1
+          type: string
+          value: vrf forwarding Mgmt-intf
+        - id: com.cisco.csr1000v.ios-config-0005.1
+          type: string
+          value: "ip address {{ csr_mgmt_address }} {{ csr_mgmt_mask }}"
+        - id: com.cisco.csr1000v.ios-config-0006.1
+          type: string
+          value: no shutdown
+        - id: com.cisco.csr1000v.ios-config-0007.1
+          type: string
+          value: "ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 {{ csr_mgmt_gateway }}"
+  
+  - name: Power On Virtual Machine
+    community.vmware.vmware_guest_powerstate:
+      hostname: "{{ vcenter }}"
+      username: "{{ vc_user }}"
+      password: "{{ vc_pass }}"
+      validate_certs: no
+      folder: "{{ csr_folder }}"
+      name: "{{ csr_hostname }}"
+      state: powered-on
+    delegate_to: localhost
+    register: deploy
