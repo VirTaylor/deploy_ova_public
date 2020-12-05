@@ -19,7 +19,7 @@ ansible-galaxy collection install community.vmware
 Validated with Nested ESXI 7.0U1 (William Lam - VirtuallyGhetto) OVA and Cisco CSR (IOS XE 17.2). VAPP Properties names may change between versions. 
 
 # Additional Information/Corresponding Blog Post
-
+https://virtualizedtaylor.com/2020/12/05/automating-csr-and-esxi-deployments-with-ansible/
 
 
 
